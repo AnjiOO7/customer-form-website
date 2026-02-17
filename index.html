@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Data Form</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 15px;
+            background: #e8ffe8;
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Submit Your Details</h2>
+    
+    <input type="text" id="name" placeholder="Enter your name" required>
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <textarea id="message" placeholder="Enter your message"></textarea>
+    
+    <button onclick="submitForm()">Submit</button>
+
+    <div class="result" id="resultBox"></div>
+</div>
+
+<script>
+function submitForm() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    if (!name || !email) {
+        alert("Please fill required fields");
+        return;
+    }
+
+    const resultBox = document.getElementById("resultBox");
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `
+        <strong>Submitted Successfully!</strong><br>
+        Name: ${name} <br>
+        Email: ${email} <br>
+        Message: ${message}
+    `;
+
+    console.log({ name, email, message });
+}
+</script>
+
+</body>
+</html>
