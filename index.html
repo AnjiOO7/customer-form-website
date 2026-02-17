@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Customer Data Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: Arial;
@@ -52,27 +53,45 @@
 </div>
 
 <script>
-function submitForm() {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const message = document.getElementById("message").value;
+    // 🔹 Replace with your Supabase project details
+    const supabaseUrl = "https://ydinpuwkkclbpsveneph.supabase.co";
+    const supabaseKey = "sb_publishable_vIxVvwpHqs1nGIZJFQ0CSg_13Zm8ShD";
 
-    if (!name || !email) {
-        alert("Please fill required fields");
-        return;
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function submitForm() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        if (!name || !email) {
+            alert("Please fill required fields");
+            return;
+        }
+
+        const { data, error } = await supabase
+            .from("submissions")
+            .insert([
+                { name, email, message }
+            ]);
+
+        if (error) {
+            alert("Error submitting form");
+            console.error(error);
+            return;
+        }
+
+        const resultBox = document.getElementById("resultBox");
+        resultBox.style.display = "block";
+        resultBox.innerHTML = `
+            <strong>Submitted Successfully!</strong>
+        `;
+
+        // Clear form
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("message").value = "";
     }
-
-    const resultBox = document.getElementById("resultBox");
-    resultBox.style.display = "block";
-    resultBox.innerHTML = `
-        <strong>Submitted Successfully!</strong><br>
-        Name: ${name} <br>
-        Email: ${email} <br>
-        Message: ${message}
-    `;
-
-    console.log({ name, email, message });
-}
 </script>
 
 </body>
